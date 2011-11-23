@@ -16,12 +16,11 @@ module Main (
     main
 ) where
 
-import Scheme.Parser
 import System.Environment
 
-main:: IO ()
-main = do
-    args <- getArgs
-    putStrLn $ readExpr $ head args
+import Scheme.Parser
+import Scheme.Evaluator
 
+main:: IO ()
+main =  getArgs >>= print . eval . readExpr . head 
 

@@ -18,14 +18,8 @@ module Scheme.Parser (
 
 import Control.Monad
 import Text.ParserCombinators.Parsec hiding (spaces)
+import Scheme.SExpression
 
-data LispVal = Atom String
-              | List [LispVal]
-              | DottedList [LispVal] LispVal
-              | Number Integer
-              | String String
-              | Bool Bool
-              | Char Char
 
 symbol :: Parser Char
 symbol = oneOf "!#$%&|*+-/:<=>?@^_~"
@@ -94,11 +88,10 @@ parseQuoted = do
     return $ List [Atom "quote", x]
 
 
-readExpr :: String -> String
+readExpr :: String -> LispVal
 readExpr input = case parse parseExpr "lisp" input of
-    Left err -> "No match: " ++ show err
-    Right (String val) -> "Found string: " ++ val
-    Right val -> "Found value"
+    Left err -> String $ "No match: " ++ show err
+    Right val ->  val
 
 
 
