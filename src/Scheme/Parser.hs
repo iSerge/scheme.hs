@@ -18,7 +18,9 @@ module Scheme.Parser (
 
 import Control.Monad
 import Text.ParserCombinators.Parsec hiding (spaces)
+
 import Scheme.SExpression
+import Scheme.Exception
 
 
 symbol :: Parser Char
@@ -88,10 +90,10 @@ parseQuoted = do
     return $ List [Atom "quote", x]
 
 
-readExpr :: String -> LispVal
+readExpr :: String -> ThrowsError LispVal
 readExpr input = case parse parseExpr "lisp" input of
-    Left err -> String $ "No match: " ++ show err
-    Right val ->  val
+    Left err -> throwError $ Parser err
+    Right val -> return  val
 
 
 

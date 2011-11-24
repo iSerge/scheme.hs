@@ -13,7 +13,8 @@
 -----------------------------------------------------------------------------
 
 module Scheme.SExpression (
-    LispVal(..)
+    LispVal(..),
+    unwordsList
 ) where
 
 data LispVal = Atom String
